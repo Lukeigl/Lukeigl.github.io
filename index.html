@@ -1,1 +1,326 @@
-"<h1>Meu Curr�culo Online</h1>" 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Currículo - Lucas Henrique Oliveira da Costa</title>
+  <style>
+    /* Reset e configurações iniciais */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ece9e6, #ffffff);
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      transition: background 0.5s, color 0.5s;
+    }
+    body.dark {
+      background: #333;
+      color: #eee;
+    }
+    /* Cabeçalho */
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: #007BFF;
+      color: #fff;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2em;
+    }
+    /* Navegação */
+    nav {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a.active {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    nav a:hover {
+      color: #0056b3;
+    }
+    body.dark nav a {
+      color: #fff;
+    }
+    body.dark nav a.active {
+      color: #ffa;
+    }
+    /* Seções */
+    .section {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    body.dark .section {
+      background: #444;
+    }
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .section h2 {
+      font-size: 1.5em;
+      border-left: 5px solid #007BFF;
+      padding-left: 10px;
+      margin-bottom: 15px;
+    }
+    body.dark .section h2 {
+      border-left-color: #ffa;
+    }
+    .section p,
+    .section li {
+      margin: 10px 0;
+    }
+    .section ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+    /* Botão de Modo Escuro/Claro */
+    .toggle-mode {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .toggle-mode:hover {
+      background: #0056b3;
+    }
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s, visibility 0.5s;
+      z-index: 1000;
+    }
+    #toast.show {
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+  <!-- Botão de alternância de modo -->
+  <button class="toggle-mode" id="toggleMode">Modo Escuro</button>
+
+  <!-- Cabeçalho -->
+  <header>
+    <h1>Lucas Henrique Oliveira da Costa</h1>
+    <p>Profissional em Análise de Dados &amp; Automação de Processos</p>
+  </header>
+  
+  <!-- Barra de navegação -->
+  <nav id="navbar">
+    <a href="#dados-pessoais">Dados Pessoais</a>
+    <a href="#objetivo">Objetivo</a>
+    <a href="#resumo">Resumo</a>
+    <a href="#experiencia">Experiência</a>
+    <a href="#formacao">Formação</a>
+    <a href="#cursos">Cursos</a>
+    <a href="#habilidades">Habilidades</a>
+    <a href="#projetos">Projetos</a>
+    <a href="#disponibilidade">Disponibilidade</a>
+  </nav>
+  
+  <!-- Seções do Currículo -->
+  <div class="section" id="dados-pessoais">
+    <h2>Dados Pessoais</h2>
+    <p>📍 Araraquara - SP</p>
+    <p>📧 <a href="mailto:Lucashenriqueoliveira@outlook.com">Lucashenriqueoliveira@outlook.com</a></p>
+    <p>📞 (16) 99643-3357</p>
+    <p>🔗 <a href="https://www.linkedin.com/in/lucas-costa-047009100" target="_blank">LinkedIn</a></p>
+  </div>
+  
+  <div class="section" id="objetivo">
+    <h2>Objetivo</h2>
+    <p>Profissional com experiência em análise de dados, automação de processos e otimização de indicadores operacionais.</p>
+    <p>Busco uma oportunidade para aplicar minhas habilidades em ciência de dados, RPA e otimização de processos empresariais, contribuindo para a tomada de decisão estratégica, melhoria da eficiência operacional e inovação tecnológica.</p>
+  </div>
+  
+  <div class="section" id="resumo">
+    <h2>Resumo Profissional</h2>
+    <p>Mais de 9 anos de experiência na Telefônica Brasil S.A., atuando em análise de dados, automação de processos e gestão operacional.</p>
+    <p>Especialista em criação de painéis gerenciais dinâmicos, integração de dados entre sistemas e modelagem preditiva.</p>
+    <p>Histórico de promoções e projetos voltados para redução de custos, otimização de mão de obra e implementação de automações inteligentes.</p>
+  </div>
+  
+  <div class="section" id="experiencia">
+    <h2>Experiência Profissional</h2>
+    <p>🔹 <strong>Telefônica Brasil S.A. – Araraquara, SP (03/09/2014 - Presente)</strong></p>
+    <p>📌 <strong>Analista de Serviço ao Cliente Pleno (desde 10/2023)</strong></p>
+    <ul>
+      <li>Desenvolvimento de automações avançadas para análise de reincidências e envio de relatórios via WhatsApp e Teams.</li>
+      <li>Criação de modelos preditivos para identificação de padrões de falhas e otimização de processos.</li>
+    </ul>
+    <p>📌 <strong>Supervisor de Serviços ao Cliente (11/2021 – 10/2023)</strong></p>
+    <ul>
+      <li>Gestão de equipe, garantindo a qualidade no atendimento e otimização de processos.</li>
+      <li>Implementação de automação de tarefas operacionais com RPA, reduzindo retrabalho.</li>
+    </ul>
+  </div>
+  
+  <div class="section" id="formacao">
+    <h2>Formação Acadêmica</h2>
+    <p>🎓 Tecnólogo em Análise de Dados – Universidade Cruzeiro do Sul (Cursando)</p>
+  </div>
+  
+  <div class="section" id="cursos">
+    <h2>Cursos Complementares</h2>
+    <ul>
+      <li>🔹 Power BI Avançado – Udemy</li>
+      <li>🔹 Automação de Processos com Power Automate – Udemy</li>
+      <li>🔹 SQL para Análise de Dados – Udemy</li>
+      <li>🔹 Machine Learning e Data Science com Python – Udemy</li>
+      <li>🔹 Python para Data Science – Alura</li>
+      <li>🔹 Banco de Dados SQL e NoSQL – Alura</li>
+    </ul>
+  </div>
+  
+  <div class="section" id="habilidades">
+    <h2>Habilidades e Competências</h2>
+    <ul>
+      <li>✔ Linguagens: Python, R, SQL, Bash (Git)</li>
+      <li>✔ Ferramentas: Power BI, Power Automate, Teradata, Excel Avançado</li>
+      <li>✔ Automação: Criação de fluxos automatizados, extração de dados via API e FTP</li>
+      <li>✔ Análise de Dados: Modelagem preditiva, visualização de dados e otimização de processos</li>
+    </ul>
+  </div>
+  
+  <div class="section" id="projetos">
+    <h2>Projetos Relevantes</h2>
+    <ul>
+      <li>📌 Sistema de Análise de Reincidências – Algoritmo para identificar reincidências e integração com WhatsApp/Teams.</li>
+      <li>📌 Painel Gerencial Dinâmico – Dashboards interativos em R e Python para análise de indicadores.</li>
+      <li>📌 Automação de Processos – Implementação de RPA para envio automático de relatórios.</li>
+    </ul>
+  </div>
+  
+  <div class="section" id="disponibilidade">
+    <h2>Disponibilidade</h2>
+    <p>🔍 Disponível para novos desafios!</p>
+  </div>
+  
+  <!-- Toast Notification Element -->
+  <div id="toast"></div>
+  
+  <!-- Scripts para interatividade -->
+  <script>
+    let lastClickedSectionId = "";
+    
+    // Animação das seções ao rolar a página
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Se a seção visível for a última clicada, exibe a notificação
+          if(entry.target.id === lastClickedSectionId) {
+            showToast("Você chegou em: " + formatSectionName(entry.target.id));
+            lastClickedSectionId = "";
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    sections.forEach(section => observer.observe(section));
+    
+    // Atualiza o link ativo da navegação conforme a seção visível
+    const navLinks = document.querySelectorAll('nav a');
+    window.addEventListener('scroll', () => {
+      let current = "";
+      sections.forEach(section => {
+        if (pageYOffset >= section.offsetTop - 50) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+    
+    // Alterna entre modo escuro e claro
+    const toggleBtn = document.getElementById('toggleMode');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      toggleBtn.textContent = document.body.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro';
+    });
+    
+    // Registra a seção clicada ao navegar
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        lastClickedSectionId = link.getAttribute('href').substring(1);
+      });
+    });
+    
+    // Função para mostrar a notificação (toast)
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+    
+    // Formata o nome da seção a partir do id para exibição na notificação
+    function formatSectionName(id) {
+      switch(id) {
+        case 'dados-pessoais': return 'Dados Pessoais';
+        case 'objetivo': return 'Objetivo';
+        case 'resumo': return 'Resumo Profissional';
+        case 'experiencia': return 'Experiência Profissional';
+        case 'formacao': return 'Formação Acadêmica';
+        case 'cursos': return 'Cursos Complementares';
+        case 'habilidades': return 'Habilidades e Competências';
+        case 'projetos': return 'Projetos Relevantes';
+        case 'disponibilidade': return 'Disponibilidade';
+        default: return '';
+      }
+    }
+  </script>
+</body>
+</html>
