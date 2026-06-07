@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Quiz de Embriologia Humana | 3ª à 8ª Semana</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #0C263A;
+      --secondary: #145374;
+      --accent: #2f80ed;
+      --ok: #1f8f4d;
+      --bad: #c0392b;
+      --text: #1f2933;
+      --muted: #64748b;
+      --border: #d8e0ea;
+      --shadow: 0 10px 28px rgba(12, 38, 58, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #eaf2fb 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 28px 18px 24px;
+      text-align: center;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.55rem, 6vw, 2.4rem);
+    }
+
+    header p {
+      margin: 0 auto;
+      max-width: 760px;
+      opacity: 0.92;
+      font-size: 1rem;
+    }
+
+    main {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      padding: 18px 14px 34px;
+    }
+
+    .info, .result, .question {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .info {
+      padding: 16px;
+      margin: 16px 0;
+    }
+
+    .info strong { color: var(--primary); }
+
+    .question {
+      padding: 18px;
+      margin: 14px 0;
+    }
+
+    .question h2 {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+      color: var(--primary);
+    }
+
+    .alternatives {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    label.option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px;
+      background: #fbfdff;
+      min-height: 48px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    label.option:active { transform: scale(0.99); }
+
+    input[type="radio"] {
+      margin-top: 3px;
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-size: 1rem;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+
+    .feedback.ok {
+      display: block;
+      background: #e9f8ef;
+      border: 1px solid #bfe8cd;
+      color: var(--ok);
+    }
+
+    .feedback.bad {
+      display: block;
+      background: #fdecea;
+      border: 1px solid #f5c2bd;
+      color: var(--bad);
+    }
+
+    .feedback.note {
+      display: block;
+      background: #eef6ff;
+      border: 1px solid #c7ddff;
+      color: #174a7c;
+    }
+
+    .actions {
+      position: sticky;
+      bottom: 0;
+      background: rgba(244, 247, 251, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+      display: grid;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      padding: 15px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      background: var(--primary);
+      cursor: pointer;
+      min-height: 52px;
+    }
+
+    button.secondary { background: #64748b; }
+
+    .result {
+      display: none;
+      padding: 18px;
+      margin: 16px 0;
+      text-align: center;
+    }
+
+    .result.show { display: block; }
+
+    .score {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 8px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef6ff;
+      color: #174a7c;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 430px) {
+      main { padding-left: 10px; padding-right: 10px; }
+      .question { padding: 15px; border-radius: 16px; }
+      label.option { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Quiz de Embriologia Humana</h1>
+    <p>3ª à 8ª semana: gastrulação, neurulação, organogênese e possíveis alterações do desenvolvimento.</p>
+  </header>
+
+  <main>
+    <section class="info">
+      <strong>Como funciona:</strong> responda as questões, clique em <strong>Corrigir quiz</strong> e veja a pontuação. A questão escrita mostra a resposta esperada somente após a correção.
+    </section>
+
+    <form id="quizForm"></form>
+
+    <section id="result" class="result">
+      <div class="tag">Resultado final</div>
+      <div id="score" class="score"></div>
+      <p id="message"></p>
+    </section>
+
+    <div class="actions">
+      <button type="button" onclick="corrigirQuiz()">Corrigir quiz</button>
+      <button type="button" class="secondary" onclick="reiniciarQuiz()">Refazer</button>
+    </div>
+  </main>
+
+  <script>
+    const questoes = [
+      {q:"Qual evento marca principalmente a 3ª semana do desenvolvimento embrionário?", a:["Formação dos dedos","Gastrulação","Nascimento dos arcos costais","Desaparecimento da placenta"], c:1, e:"A 3ª semana é marcada pela gastrulação, processo que forma os três folhetos embrionários."},
+      {q:"Durante a gastrulação são formados:", a:["Ectoderma, mesoderma e endoderma","Cérebro, pulmão e rins completos","Placenta definitiva e líquido amniótico","Somente pele e ossos"], c:0, e:"A gastrulação forma os três folhetos: ectoderma, mesoderma e endoderma."},
+      {q:"O ectoderma origina principalmente:", a:["Músculos e ossos","Sistema nervoso e pele","Fígado e pâncreas","Coração e rins"], c:1, e:"O ectoderma origina sistema nervoso, epiderme e estruturas sensoriais."},
+      {q:"O mesoderma contribui para a formação de:", a:["Músculos, ossos, coração e rins","Sistema nervoso e pele","Revestimento interno do intestino","Pulmões apenas"], c:0, e:"O mesoderma forma tecidos de sustentação, músculos, sistema cardiovascular e parte do sistema urinário."},
+      {q:"O endoderma está relacionado principalmente com:", a:["Sistema nervoso","Músculos esqueléticos","Revestimento do tubo digestivo e respiratório","Pele e cabelos"], c:2, e:"O endoderma origina revestimentos internos, como trato digestivo e respiratório, além de órgãos associados."},
+      {q:"A notocorda é importante porque:", a:["Forma diretamente os dedos","Serve como eixo embrionário e induz a formação do sistema nervoso","Impede a formação do coração","Forma a placenta inteira"], c:1, e:"A notocorda orienta o eixo do embrião e participa da indução da placa neural."},
+      {q:"A neurulação ocorre principalmente na 4ª semana e forma:", a:["O tubo neural","A placenta definitiva","Os dentes permanentes","O cordão umbilical completo"], c:0, e:"A neurulação leva à formação do tubo neural, origem do encéfalo e medula espinhal."},
+      {q:"Se o tubo neural não fecha adequadamente, pode ocorrer:", a:["Espinha bífida ou anencefalia","Apenas mudança na cor dos olhos","Aumento obrigatório do peso fetal","Formação extra de pulmões"], c:0, e:"Falhas no fechamento do tubo neural podem causar defeitos como espinha bífida e anencefalia."},
+      {q:"O coração começa a bater aproximadamente em torno do:", a:["Dia 7","Dia 12","Dia 22","Dia 60"], c:2, e:"O coração primitivo começa a bater por volta do 22º dia."},
+      {q:"Os somitos dão origem principalmente a:", a:["Vértebras, costelas, músculos esqueléticos e parte da derme","Fígado e pâncreas","Somente cérebro","Placenta e âmnio"], c:0, e:"Somitos formam estruturas do esqueleto axial, musculatura esquelética e parte da pele."},
+      {q:"Na 5ª semana, um destaque importante é:", a:["Crescimento rápido da cabeça e surgimento dos brotos dos membros","Nascimento do bebê","Finalização dos dentes permanentes","Desaparecimento do coração"], c:0, e:"Na 5ª semana há crescimento encefálico intenso e aparecimento dos brotos dos membros."},
+      {q:"Entre a 6ª e a 8ª semana ocorre:", a:["Definição progressiva dos membros e dedos","Parada completa da organogênese","Desaparecimento do sistema nervoso","Formação exclusiva da placenta"], c:0, e:"Nesse período, os membros e dedos ficam progressivamente mais definidos."},
+      {q:"Por que a 3ª à 8ª semana é considerada crítica?", a:["Porque ocorre a organogênese, fase sensível a malformações","Porque nada importante acontece","Porque o embrião já está totalmente maduro","Porque só há aumento de tamanho"], c:0, e:"É o período embrionário de organogênese, quando os principais sistemas começam a se formar."},
+      {q:"A deficiência de ácido fólico aumenta o risco de:", a:["Defeitos do tubo neural","Apenas gripe na mãe","Cor dos olhos alterada","Nascimento de gêmeos"], c:0, e:"O ácido fólico é importante para reduzir risco de defeitos do tubo neural."},
+      {q:"O consumo de álcool durante a organogênese pode gerar:", a:["Alterações no desenvolvimento fetal","Apenas aumento de energia materna","Proteção contra malformações","Nenhum risco conhecido"], c:0, e:"Álcool pode interferir no desenvolvimento embrionário e fetal, especialmente em períodos sensíveis."},
+      {q:"Infecções maternas como rubéola no início da gestação podem afetar:", a:["Desenvolvimento cardíaco, auditivo e ocular","Somente crescimento das unhas","Apenas a cor do cabelo","Nenhuma estrutura embrionária"], c:0, e:"Algumas infecções no início da gestação podem causar alterações congênitas importantes."},
+      {q:"O uso de medicamentos sem orientação durante a organogênese pode:", a:["Aumentar risco de malformações, dependendo do medicamento e período","Nunca causar efeito","Apenas melhorar a formação do embrião","Impedir toda gravidez"], c:0, e:"Alguns medicamentos podem ser teratogênicos, por isso exigem orientação profissional."},
+      {q:"Ao final da 8ª semana:", a:["Os principais sistemas orgânicos já iniciaram sua formação e o embrião passa a ser chamado de feto","A gastrulação ainda não começou","O coração ainda não bate","Não existem membros"], c:0, e:"Ao fim da 8ª semana termina o período embrionário e inicia-se o período fetal."},
+      {q:"Se há falha importante no desenvolvimento dos brotos dos membros, o período provável de alteração é:", a:["5ª a 8ª semana","Apenas após o nascimento","Somente 1ª semana","Somente depois do 9º mês"], c:0, e:"Os membros se desenvolvem principalmente entre a 5ª e 8ª semana."},
+      {q:"Explique com suas palavras por que a organogênese é uma fase sensível e cite dois fatores que podem gerar problemas no desenvolvimento.", escrita:true, esperado:"Resposta esperada: a organogênese é sensível porque os principais órgãos e sistemas estão começando a se formar. Fatores como álcool, certos medicamentos, infecções, radiação e deficiência de ácido fólico podem gerar alterações no desenvolvimento."}
+    ];
+
+    const form = document.getElementById("quizForm");
+
+    function montarQuiz() {
+      form.innerHTML = "";
+      questoes.forEach((item, index) => {
+        const box = document.createElement("section");
+        box.className = "question";
+        let html = `<h2>${index + 1}. ${item.q}</h2>`;
+
+        if (item.escrita) {
+          html += `<textarea id="q${index}" placeholder="Digite sua resposta aqui..."></textarea>`;
+          html += `<div id="f${index}" class="feedback note"></div>`;
+        } else {
+          html += `<div class="alternatives">`;
+          item.a.forEach((alt, i) => {
+            html += `<label class="option"><input type="radio" name="q${index}" value="${i}"><span>${alt}</span></label>`;
+          });
+          html += `</div><div id="f${index}" class="feedback"></div>`;
+        }
+
+        box.innerHTML = html;
+        form.appendChild(box);
+      });
+    }
+
+    function corrigirQuiz() {
+      let acertos = 0;
+      let objetivas = 0;
+
+      questoes.forEach((item, index) => {
+        const feedback = document.getElementById(`f${index}`);
+
+        if (item.escrita) {
+          feedback.className = "feedback note";
+          feedback.innerHTML = `<strong>Resposta esperada:</strong><br>${item.esperado.replace("Resposta esperada: ", "")}`;
+          return;
+        }
+
+        objetivas++;
+        const marcada = document.querySelector(`input[name="q${index}"]:checked`);
+        if (!marcada) {
+          feedback.className = "feedback bad";
+          feedback.innerHTML = `Não respondida. <br><strong>Explicação:</strong> ${item.e}`;
+          return;
+        }
+
+        if (Number(marcada.value) === item.c) {
+          acertos++;
+          feedback.className = "feedback ok";
+          feedback.innerHTML = `Correta. <br><strong>Explicação:</strong> ${item.e}`;
+        } else {
+          feedback.className = "feedback bad";
+          feedback.innerHTML = `Incorreta. Resposta correta: <strong>${item.a[item.c]}</strong>. <br><strong>Explicação:</strong> ${item.e}`;
+        }
+      });
+
+      const percentual = Math.round((acertos / objetivas) * 100);
+      document.getElementById("score").textContent = `${acertos}/${objetivas} (${percentual}%)`;
+
+      let msg = "";
+      if (percentual >= 90) msg = "Excelente! Você domina muito bem o conteúdo.";
+      else if (percentual >= 75) msg = "Muito bom! Revise apenas os detalhes.";
+      else if (percentual >= 55) msg = "Bom começo. Vale revisar gastrulação, neurulação e organogênese.";
+      else msg = "Revise o conteúdo com calma e refaça o quiz depois.";
+
+      document.getElementById("message").textContent = msg;
+      document.getElementById("result").classList.add("show");
+      document.getElementById("result").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    function reiniciarQuiz() {
+      montarQuiz();
+      document.getElementById("result").classList.remove("show");
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    montarQuiz();
+  </script>
+</body>
+</html>
