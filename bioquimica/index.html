@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>Quiz Bioquímica Celular</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--p:#0C263A;--s:#145374;--a:#2f80ed;--bg:#f3f7fb;--card:#fff;--txt:#1f2933;--mut:#64748b;--bd:#d8e0ea;--ok:#1f8f4d;--bad:#c0392b;--yel:#b7791f;--sh:0 10px 28px rgba(12,38,58,.12)}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(180deg,#eaf2fb,var(--bg));color:var(--txt);line-height:1.45}header{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;text-align:center;padding:30px 16px 24px;border-bottom-left-radius:28px;border-bottom-right-radius:28px}h1{margin:0 0 8px;font-size:clamp(1.45rem,6vw,2.35rem)}header p{margin:0 auto;max-width:820px;opacity:.92}main{width:min(980px,100%);margin:auto;padding:16px 12px 40px}.card,.question,.result{background:var(--card);border:1px solid var(--bd);border-radius:18px;box-shadow:var(--sh)}.card{padding:16px;margin:14px 0}.levels{display:grid;gap:12px}.level{border:2px solid var(--bd);border-radius:18px;padding:16px;background:#fbfdff;text-align:left}.level h2{margin:0 0 6px;color:var(--p);font-size:1.15rem}.level p{margin:0;color:var(--mut)}.level.easy{border-color:#bfe8cd}.level.medium{border-color:#f4d58d}.level.hard{border-color:#f2aaa4}.question{padding:16px;margin:14px 0}.question h2{margin:0 0 12px;color:var(--p);font-size:1.02rem}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#eef6ff;color:#174a7c;font-weight:700;font-size:.82rem}.alternatives{display:grid;gap:10px;margin-top:10px}.option{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--bd);border-radius:14px;padding:13px;background:#fbfdff;min-height:50px;-webkit-tap-highlight-color:transparent}.option:active{transform:scale(.99)}input[type=radio]{width:20px;height:20px;margin-top:3px;accent-color:var(--a);flex:0 0 auto}.feedback{display:none;margin-top:12px;padding:12px;border-radius:12px;font-size:.94rem}.feedback.ok{display:block;background:#e9f8ef;border:1px solid #bfe8cd;color:var(--ok)}.feedback.bad{display:block;background:#fdecea;border:1px solid #f5c2bd;color:var(--bad)}.actions{position:sticky;bottom:0;background:rgba(243,247,251,.93);backdrop-filter:blur(10px);padding:12px 0 calc(12px + env(safe-area-inset-bottom));display:grid;gap:10px;z-index:10}button{width:100%;border:0;border-radius:16px;padding:15px 18px;font-size:1rem;font-weight:800;color:#fff;background:var(--p);min-height:52px;cursor:pointer}button.secondary{background:#64748b}button.green{background:var(--ok)}.result{display:none;padding:18px;margin:16px 0;text-align:center}.result.show{display:block}.score{font-size:2rem;font-weight:900;color:var(--p);margin:8px 0}.hidden{display:none!important}.topbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}.progress{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:12px}.bar{height:100%;width:0;background:var(--a);transition:.25s}input.name{width:100%;border:1px solid var(--bd);border-radius:14px;padding:14px;font-size:1rem;margin-top:10px}.note{font-size:.92rem;color:var(--mut);margin-top:10px}footer{text-align:center;color:var(--mut);font-size:.86rem;padding:16px}@media(max-width:430px){main{padding-left:10px;padding-right:10px}.question{padding:14px;border-radius:16px}.option{padding:12px}}
+</style>
+</head>
+<body>
+<header><h1>Quiz de Bioquímica Celular</h1><p>Bioenergética, respiração celular, Ciclo de Krebs, sinalização celular, ciclo celular e oncogênese.</p></header>
+<main>
+<section id="start" class="card">
+<h2>Escolha o nível da prova</h2>
+<p>Versão inicial do banco de questões. O nível Fácil já usa o primeiro bloco criado. Médio e Difícil estão estruturados com questões de diagnóstico para expansão.</p>
+<input id="student" class="name" placeholder="Nome do aluno (opcional)">
+<div class="levels">
+<button class="level easy" onclick="startQuiz('facil')"><h2>🟢 Fácil</h2><p>25 questões iniciais: ATP, respiração, Krebs, sinalização, ciclo celular e oncogênese.</p></button>
+<button class="level medium" onclick="startQuiz('medio')"><h2>🟡 Médio</h2><p>15 questões de relação entre conceitos e interpretação.</p></button>
+<button class="level hard" onclick="startQuiz('dificil')"><h2>🔴 Difícil</h2><p>15 questões mais integradas, com foco em ciclo celular e oncogênese.</p></button>
+</div>
+<p class="note">Meta final: Fácil 100 questões, Médio 150, Difícil 200.</p>
+</section>
+<section id="quizHead" class="card hidden"><div class="topbar"><span id="nivelAtual" class="pill"></span><span id="contador" class="pill"></span></div><div class="progress"><div id="bar" class="bar"></div></div></section>
+<form id="quizForm"></form>
+<section id="result" class="result"><div class="pill">Resultado final</div><div id="score" class="score"></div><p id="message"></p></section>
+<div id="actions" class="actions hidden"><button onclick="corrigirQuiz()" type="button">Corrigir quiz</button><button onclick="gerarPDF()" type="button" class="green">Gerar PDF do resultado</button><button onclick="reiniciar()" type="button" class="secondary">Voltar para níveis</button></div>
+</main><footer>Material de estudo. Não substitui conteúdo oficial da disciplina.</footer>
+<script>
+const bancos={facil:{nome:'Fácil'},medio:{nome:'Médio'},dificil:{nome:'Difícil'}};
+const base={
+facil:[
+['Qual molécula é considerada a principal moeda energética da célula?',['DNA','ATP','RNA','Glicose'],1,'O ATP é a principal moeda energética usada pela célula.'],
+['O ATP armazena energia principalmente em:',['Ligações fosfato','Núcleo','Ribossomos','Membrana plasmática'],0,'A energia do ATP está associada às ligações entre grupos fosfato.'],
+['Qual molécula é produzida quando o ATP libera energia?',['DNA','NADH','ADP','Glicose'],2,'Quando perde um fosfato, o ATP se transforma em ADP.'],
+['Oxidação corresponde à:',['Ganho de elétrons','Perda de elétrons','Ganho de ATP','Produção de DNA'],1,'Oxidação é perda de elétrons.'],
+['Redução corresponde à:',['Perda de elétrons','Ganho de elétrons','Produção de ATP','Quebra da glicose'],1,'Redução é ganho de elétrons.'],
+['Qual molécula transporta elétrons para a cadeia respiratória?',['DNA','NADH','ATP','RNA'],1,'O NADH carrega elétrons para a cadeia transportadora.'],
+['Qual molécula também participa do transporte de elétrons?',['FADH₂','ADP','Glicose','Colesterol'],0,'O FADH₂ também doa elétrons à cadeia respiratória.'],
+['A respiração celular tem como principal objetivo:',['Produzir proteínas','Produzir ATP','Produzir DNA','Produzir hormônios'],1,'A respiração celular transforma energia dos nutrientes em ATP.'],
+['A maior parte da respiração celular ocorre em qual organela?',['Núcleo','Lisossomo','Mitocôndria','Complexo de Golgi'],2,'A mitocôndria é a principal organela da respiração aeróbica.'],
+['Qual é a primeira etapa da respiração celular?',['Ciclo de Krebs','Cadeia respiratória','Glicólise','Fermentação'],2,'A glicólise é a etapa inicial da degradação da glicose.'],
+['A glicólise ocorre:',['No núcleo','No citoplasma','Na mitocôndria','No retículo endoplasmático'],1,'A glicólise ocorre no citoplasma.'],
+['A glicose é quebrada durante a glicólise formando:',['Piruvato','DNA','ATP sintase','Acetona'],0,'A glicólise gera piruvato.'],
+['Após a glicólise, o piruvato é convertido em:',['ATP','Acetil-CoA','DNA','RNA'],1,'O piruvato é convertido em Acetil-CoA antes do Ciclo de Krebs.'],
+['Qual molécula entra no Ciclo de Krebs?',['ATP','NADH','Acetil-CoA','DNA'],2,'O Acetil-CoA entra no Ciclo de Krebs.'],
+['O Ciclo de Krebs ocorre:',['No núcleo','Na matriz mitocondrial','No citoplasma','No lisossomo'],1,'O Ciclo de Krebs ocorre na matriz mitocondrial.'],
+['O Ciclo de Krebs produz:',['DNA','NADH e FADH₂','Colesterol','RNA'],1,'O ciclo produz transportadores de elétrons como NADH e FADH₂.'],
+['Qual gás é liberado durante o Ciclo de Krebs?',['Oxigênio','Nitrogênio','Dióxido de carbono','Hidrogênio'],2,'O CO₂ é liberado como produto do metabolismo oxidativo.'],
+['O oxigênio é importante na respiração celular porque:',['Atua como receptor final de elétrons','Produz DNA','Produz glicose','Produz proteínas'],0,'O oxigênio recebe elétrons ao final da cadeia respiratória.'],
+['Os fatores de crescimento são moléculas que:',['Estimulam crescimento e divisão celular','Produzem ATP','Produzem DNA','Quebram proteínas'],0,'Fatores de crescimento podem estimular proliferação celular.'],
+['Os fatores de crescimento atuam ligando-se a:',['ATP','Receptores celulares','DNA','Ribossomos'],1,'Eles se ligam a receptores e iniciam vias de sinalização.'],
+['O AMPc é um exemplo de:',['Primeiro mensageiro','Segundo mensageiro','Gene','Hormônio'],1,'O AMPc é um segundo mensageiro intracelular.'],
+['A principal função da sinalização celular é:',['Permitir comunicação entre células','Produzir ATP','Produzir DNA','Produzir ribossomos'],0,'Sinalização celular permite comunicação e resposta celular.'],
+['Em qual fase do ciclo celular ocorre a replicação do DNA?',['G1','G2','S','M'],2,'Na fase S ocorre a síntese/replicação do DNA.'],
+['Qual proteína é conhecida como guardiã do genoma?',['RAS','MYC','p53','HER2'],2,'A p53 ajuda a interromper o ciclo celular e reparar danos no DNA.'],
+['Um proto-oncogene pode transformar-se em:',['RNA','ATP','Oncogene','Ribossomo'],2,'Quando alterado, um proto-oncogene pode virar oncogene.']
+],
+medio:[
+['Qual relação está correta?',['NADH e FADH₂ levam elétrons à cadeia respiratória','ATP leva DNA ao núcleo','CO₂ é receptor final de elétrons','RNA entra no Ciclo de Krebs'],0,'NADH e FADH₂ alimentam a cadeia respiratória com elétrons.'],
+['Se falta oxigênio, a cadeia respiratória tende a:',['Reduzir sua eficiência','Produzir mais ATP indefinidamente','Virar DNA','Ativar todos os oncogenes'],0,'Sem oxigênio, o fluxo final de elétrons é prejudicado.'],
+['O Ciclo de Krebs é importante porque:',['Gera NADH e FADH₂ para produção de ATP','Replica DNA','Produz receptores de membrana','Bloqueia mitose sempre'],0,'Seus produtos alimentam a fosforilação oxidativa.'],
+['Fator de crescimento → receptor → cascata intracelular representa:',['Sinalização celular','Glicólise','Fermentação','Transcrição apenas'],0,'É um exemplo de transdução de sinal.'],
+['Ciclinas e CDKs estão relacionadas a:',['Progressão do ciclo celular','Transporte de oxigênio no sangue','Produção direta de glicose','Quebra de proteínas no estômago'],0,'Ciclinas e CDKs controlam a passagem pelas fases do ciclo.'],
+['A p53 atua principalmente quando:',['Há dano no DNA','Há excesso de ATP apenas','A glicose entra na célula','O oxigênio aumenta no sangue'],0,'A p53 responde a danos no DNA.'],
+['A proteína Rb é entendida como:',['Freio do ciclo celular','Transportador de elétrons','Enzima da glicólise','Produto final de Krebs'],0,'Rb limita a progressão do ciclo celular.'],
+['Uma mutação que ativa permanentemente RAS pode causar:',['Estímulo contínuo de proliferação','Parada definitiva da respiração','Ausência de ATP','Perda da mitocôndria'],0,'RAS ativado pode manter sinal de crescimento.'],
+['Oncogene é melhor definido como:',['Gene alterado que favorece proliferação descontrolada','Gene que sempre repara DNA','Molécula de energia','Produto da glicólise'],0,'Oncogenes estimulam crescimento de forma anormal.'],
+['Gene supressor tumoral funciona como:',['Freio contra divisão inadequada','Acelerador obrigatório do câncer','Fonte de ATP','Receptor final de elétrons'],0,'Supressores tumorais impedem proliferação indevida.'],
+['A perda da p53 favorece câncer porque:',['Dificulta bloqueio do ciclo e reparo do DNA','Aumenta fotossíntese','Impede glicólise sempre','Forma ATP extra'],0,'Sem p53 funcional, células com dano podem continuar dividindo.'],
+['Qual tema conecta sinalização celular e oncogênese?',['Vias de crescimento como RAS/MAPK','Digestão gástrica','Filtração renal','Contração muscular'],0,'Vias de crescimento alteradas podem favorecer oncogênese.'],
+['O controle do ciclo celular evita:',['Divisão de células com DNA danificado','Produção de ATP','Entrada de glicose','Formação de piruvato'],0,'Checkpoints impedem divisão inadequada.'],
+['A cadeia respiratória usa elétrons para:',['Criar gradiente usado na produção de ATP','Formar ribossomos','Duplicar cromossomos','Ativar p53 diretamente'],0,'O gradiente de prótons impulsiona a ATP sintase.'],
+['A ATP sintase está associada a:',['Produção de ATP','Formação de DNA','Destruição de receptores','Origem dos oncogenes'],0,'A ATP sintase produz ATP usando o gradiente de prótons.']
+],
+dificil:[
+['Uma célula com RAS permanentemente ativa tende a:',['Ativar vias proliferativas mesmo sem estímulo','Parar toda divisão celular','Perder toda glicólise','Produzir apenas CO₂'],0,'RAS ativa cascatas de crescimento, como MAPK.'],
+['Mutação em TP53 é perigosa porque:',['Permite acúmulo de mutações por falha no controle de dano ao DNA','Aumenta apenas produção de oxigênio','Bloqueia todo ATP','Impede entrada de Acetil-CoA em qualquer célula'],0,'TP53 codifica p53, importante para checkpoints e apoptose.'],
+['Proto-oncogene e gene supressor tumoral diferem porque:',['Um é acelerador potencial, o outro é freio','Ambos produzem ATP','Ambos são organelas','Ambos são gases'],0,'Proto-oncogene estimula crescimento normal; supressor limita divisão.'],
+['A combinação mais associada à oncogênese é:',['Oncogene ativado + supressor tumoral inativado','ATP alto + CO₂ baixo apenas','Glicólise normal + Krebs normal','Oxigênio final + água'],0,'Câncer envolve ganho de função em oncogenes e perda de freios.'],
+['HER2 amplificado em tumores representa:',['Sinal de crescimento aumentado','Bloqueio da glicólise','Ausência de mitocôndria','Produção de CO₂ reduzida sempre'],0,'HER2 é receptor associado a proliferação quando amplificado.'],
+['MYC alterado pode favorecer câncer por:',['Aumentar expressão de genes ligados à proliferação','Atuar como receptor final de elétrons','Converter ATP em DNA','Produzir oxigênio'],0,'MYC regula expressão gênica relacionada ao crescimento.'],
+['Checkpoint G1/S avalia principalmente:',['Se a célula deve replicar DNA','Se o ATP virou RNA','Se a célula já nasceu','Se o CO₂ entrou em Krebs'],0,'O ponto G1/S decide entrada em fase S.'],
+['Falha em apoptose pode favorecer câncer porque:',['Células alteradas sobrevivem','A célula produz menos água','O Krebs para obrigatoriamente','O oxigênio vira glicose'],0,'A apoptose remove células com danos importantes.'],
+['Se o oxigênio é receptor final de elétrons, sua ausência afeta diretamente:',['Fosforilação oxidativa','Ligação de fatores de crescimento','Mutação de p53 obrigatória','Duplicação do centrômero apenas'],0,'Sem oxigênio, a cadeia respiratória fica limitada.'],
+['Uma via de sinalização alterada pode mudar expressão gênica porque:',['O sinal pode chegar ao núcleo e ativar fatores de transcrição','O ATP vira cromossomo','O CO₂ vira DNA','A mitocôndria vira receptor'],0,'Cascatas podem modular fatores de transcrição.'],
+['O câncer é melhor entendido como:',['Doença de falha progressiva de controle celular','Aumento normal de ATP','Produto obrigatório do Ciclo de Krebs','Sempre uma infecção simples'],0,'Oncogênese envolve alterações acumuladas no controle celular.'],
+['Uma célula com dano no DNA deveria preferencialmente:',['Parar o ciclo, reparar ou entrar em apoptose','Entrar em mitose sem controle','Ativar todos os oncogenes','Ignorar checkpoints'],0,'Esse é o papel de mecanismos como p53 e checkpoints.'],
+['A transdução de sinal significa:',['Conversão de sinal externo em resposta intracelular','Quebra de ATP no estômago','Liberação de CO₂ no sangue apenas','Formação de glicose no núcleo'],0,'Transdução é a passagem/processamento do sinal dentro da célula.'],
+['Ciclinas/CDKs hiperativas podem gerar:',['Progressão indevida do ciclo celular','Ausência total de mitocôndria','Fim da sinalização celular normal sempre','Produção direta de NADH'],0,'Atividade excessiva pode facilitar divisão sem controle.'],
+['A melhor frase integradora é:',['Energia sustenta a célula; sinalização orienta respostas; ciclo celular controla divisão; falhas podem gerar câncer','Krebs produz DNA; p53 produz ATP; HER2 é gás','Oncogênese é apenas falta de oxigênio','Ciclo celular não tem relação com câncer'],0,'Essa frase conecta os principais temas da prova.']
+]};
+let prova=[],nivel='',corrigido=false,erros=[];
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function obj(x){let o=shuffle(x[1].map((t,j)=>({t,j})));return{q:x[0],opts:o.map(v=>v.t),c:o.findIndex(v=>v.j===x[2]),e:x[3]}}
+function startQuiz(n){nivel=n;corrigido=false;erros=[];prova=shuffle(base[n]).map(obj);document.getElementById('start').classList.add('hidden');document.getElementById('quizHead').classList.remove('hidden');document.getElementById('actions').classList.remove('hidden');document.getElementById('result').classList.remove('show');document.getElementById('nivelAtual').textContent='Nível: '+bancos[n].nome;render()}
+function render(){const f=document.getElementById('quizForm');f.innerHTML='';prova.forEach((it,idx)=>{let s=document.createElement('section');s.className='question';let h=`<h2>${idx+1}. ${it.q}</h2><div class="alternatives">`;it.opts.forEach((op,i)=>h+=`<label class="option"><input onchange="prog()" type="radio" name="q${idx}" value="${i}"><span>${op}</span></label>`);h+=`</div><div id="fb${idx}" class="feedback"></div>`;s.innerHTML=h;f.appendChild(s)});prog();window.scrollTo({top:0,behavior:'smooth'})}
+function prog(){let r=prova.filter((_,i)=>document.querySelector(`input[name=q${i}]:checked`)).length;document.getElementById('contador').textContent=`${r}/${prova.length} respondidas`;document.getElementById('bar').style.width=(r/prova.length*100)+'%'}
+function corrigirQuiz(){let ac=0;erros=[];prova.forEach((it,i)=>{let m=document.querySelector(`input[name=q${i}]:checked`),fb=document.getElementById('fb'+i);if(!m){fb.className='feedback bad';fb.innerHTML='Não respondida.<br><b>Correta:</b> '+it.opts[it.c]+'<br><b>Explicação:</b> '+it.e;erros.push({n:i+1,q:it.q,sua:'Não respondida',cor:it.opts[it.c],e:it.e});return}if(+m.value===it.c){ac++;fb.className='feedback ok';fb.innerHTML='Correta.<br><b>Explicação:</b> '+it.e}else{fb.className='feedback bad';fb.innerHTML='Incorreta.<br><b>Correta:</b> '+it.opts[it.c]+'<br><b>Explicação:</b> '+it.e;erros.push({n:i+1,q:it.q,sua:it.opts[+m.value],cor:it.opts[it.c],e:it.e})}});corrigido=true;let pct=Math.round(ac/prova.length*100),msg=pct>=90?'Excelente!':pct>=75?'Muito bom!':pct>=55?'Bom começo, revise os erros.':'Revise a teoria e tente novamente.';document.getElementById('score').textContent=`${ac}/${prova.length} (${pct}%)`;document.getElementById('message').textContent=msg;document.getElementById('result').classList.add('show');document.getElementById('result').scrollIntoView({behavior:'smooth'})}
+function gerarPDF(){if(!corrigido){alert('Corrija o quiz antes de gerar o PDF.');return}const {jsPDF}=window.jspdf;const doc=new jsPDF();const nome=document.getElementById('student').value||'Aluno';const data=new Date().toLocaleString('pt-BR');let score=document.getElementById('score').textContent;let y=14;doc.setFontSize(16);doc.text('Relatório - Quiz de Bioquímica Celular',14,y);y+=10;doc.setFontSize(11);doc.text('Aluno: '+nome,14,y);y+=7;doc.text('Data: '+data,14,y);y+=7;doc.text('Nível: '+bancos[nivel].nome,14,y);y+=7;doc.text('Resultado: '+score,14,y);y+=10;doc.setFontSize(13);doc.text('Questões erradas / não respondidas',14,y);y+=8;doc.setFontSize(10);if(!erros.length){doc.text('Nenhum erro. Excelente desempenho!',14,y)}erros.forEach(er=>{let linhas=doc.splitTextToSize(`${er.n}. ${er.q}\nSua resposta: ${er.sua}\nCorreta: ${er.cor}\nExplicação: ${er.e}`,180);if(y+linhas.length*5>280){doc.addPage();y=14}doc.text(linhas,14,y);y+=linhas.length*5+5});doc.save('resultado_bioquimica_'+nome.replaceAll(' ','_')+'.pdf')}
+function reiniciar(){document.getElementById('start').classList.remove('hidden');document.getElementById('quizHead').classList.add('hidden');document.getElementById('actions').classList.add('hidden');document.getElementById('quizForm').innerHTML='';document.getElementById('result').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'})}
+</script>
+</body>
+</html>
