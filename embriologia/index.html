@@ -1,341 +1,153 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Quiz de Embriologia Humana | 3ª à 8ª Semana</title>
-  <style>
-    :root {
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --primary: #0C263A;
-      --secondary: #145374;
-      --accent: #2f80ed;
-      --ok: #1f8f4d;
-      --bad: #c0392b;
-      --text: #1f2933;
-      --muted: #64748b;
-      --border: #d8e0ea;
-      --shadow: 0 10px 28px rgba(12, 38, 58, 0.12);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(180deg, #eaf2fb 0%, var(--bg) 100%);
-      color: var(--text);
-      line-height: 1.45;
-    }
-
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      padding: 28px 18px 24px;
-      text-align: center;
-      border-bottom-left-radius: 28px;
-      border-bottom-right-radius: 28px;
-    }
-
-    header h1 {
-      margin: 0 0 8px;
-      font-size: clamp(1.55rem, 6vw, 2.4rem);
-    }
-
-    header p {
-      margin: 0 auto;
-      max-width: 760px;
-      opacity: 0.92;
-      font-size: 1rem;
-    }
-
-    main {
-      width: min(960px, 100%);
-      margin: 0 auto;
-      padding: 18px 14px 34px;
-    }
-
-    .info, .result, .question {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .info {
-      padding: 16px;
-      margin: 16px 0;
-    }
-
-    .info strong { color: var(--primary); }
-
-    .question {
-      padding: 18px;
-      margin: 14px 0;
-    }
-
-    .question h2 {
-      margin: 0 0 12px;
-      font-size: 1.05rem;
-      color: var(--primary);
-    }
-
-    .alternatives {
-      display: grid;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    label.option {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 13px;
-      background: #fbfdff;
-      min-height: 48px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    label.option:active { transform: scale(0.99); }
-
-    input[type="radio"] {
-      margin-top: 3px;
-      width: 20px;
-      height: 20px;
-      accent-color: var(--accent);
-      flex: 0 0 auto;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 130px;
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      font-size: 1rem;
-      resize: vertical;
-      font-family: inherit;
-    }
-
-    .feedback {
-      display: none;
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 0.95rem;
-    }
-
-    .feedback.ok {
-      display: block;
-      background: #e9f8ef;
-      border: 1px solid #bfe8cd;
-      color: var(--ok);
-    }
-
-    .feedback.bad {
-      display: block;
-      background: #fdecea;
-      border: 1px solid #f5c2bd;
-      color: var(--bad);
-    }
-
-    .feedback.note {
-      display: block;
-      background: #eef6ff;
-      border: 1px solid #c7ddff;
-      color: #174a7c;
-    }
-
-    .actions {
-      position: sticky;
-      bottom: 0;
-      background: rgba(244, 247, 251, 0.92);
-      backdrop-filter: blur(10px);
-      padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
-      display: grid;
-      gap: 10px;
-      z-index: 10;
-    }
-
-    button {
-      width: 100%;
-      border: 0;
-      border-radius: 16px;
-      padding: 15px 18px;
-      font-size: 1rem;
-      font-weight: 700;
-      color: white;
-      background: var(--primary);
-      cursor: pointer;
-      min-height: 52px;
-    }
-
-    button.secondary { background: #64748b; }
-
-    .result {
-      display: none;
-      padding: 18px;
-      margin: 16px 0;
-      text-align: center;
-    }
-
-    .result.show { display: block; }
-
-    .score {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin: 8px 0;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #eef6ff;
-      color: #174a7c;
-      font-weight: 700;
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-    }
-
-    @media (max-width: 430px) {
-      main { padding-left: 10px; padding-right: 10px; }
-      .question { padding: 15px; border-radius: 16px; }
-      label.option { padding: 12px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>Quiz Embriologia Humana</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--p:#0C263A;--s:#145374;--a:#2f80ed;--bg:#f3f7fb;--card:#fff;--txt:#1f2933;--mut:#64748b;--bd:#d8e0ea;--ok:#1f8f4d;--bad:#c0392b;--yel:#b7791f;--sh:0 10px 28px rgba(12,38,58,.12)}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(180deg,#eaf2fb,var(--bg));color:var(--txt);line-height:1.45}header{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;text-align:center;padding:30px 16px 24px;border-bottom-left-radius:28px;border-bottom-right-radius:28px}h1{margin:0 0 8px;font-size:clamp(1.45rem,6vw,2.35rem)}header p{margin:0 auto;max-width:760px;opacity:.92}main{width:min(980px,100%);margin:auto;padding:16px 12px 40px}.card,.question,.result{background:var(--card);border:1px solid var(--bd);border-radius:18px;box-shadow:var(--sh)}.card{padding:16px;margin:14px 0}.levels{display:grid;gap:12px}.level{border:2px solid var(--bd);border-radius:18px;padding:16px;background:#fbfdff;text-align:left}.level h2{margin:0 0 6px;color:var(--p);font-size:1.15rem}.level p{margin:0;color:var(--mut)}.level.easy{border-color:#bfe8cd}.level.medium{border-color:#f4d58d}.level.hard{border-color:#f2aaa4}.question{padding:16px;margin:14px 0}.question h2{margin:0 0 12px;color:var(--p);font-size:1.02rem}.meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#eef6ff;color:#174a7c;font-weight:700;font-size:.82rem}.alternatives{display:grid;gap:10px;margin-top:10px}.option{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--bd);border-radius:14px;padding:13px;background:#fbfdff;min-height:50px;-webkit-tap-highlight-color:transparent}.option:active{transform:scale(.99)}input[type=radio]{width:20px;height:20px;margin-top:3px;accent-color:var(--a);flex:0 0 auto}.feedback{display:none;margin-top:12px;padding:12px;border-radius:12px;font-size:.94rem}.feedback.ok{display:block;background:#e9f8ef;border:1px solid #bfe8cd;color:var(--ok)}.feedback.bad{display:block;background:#fdecea;border:1px solid #f5c2bd;color:var(--bad)}.feedback.note{display:block;background:#eef6ff;border:1px solid #c7ddff;color:#174a7c}.actions{position:sticky;bottom:0;background:rgba(243,247,251,.93);backdrop-filter:blur(10px);padding:12px 0 calc(12px + env(safe-area-inset-bottom));display:grid;gap:10px;z-index:10}button{width:100%;border:0;border-radius:16px;padding:15px 18px;font-size:1rem;font-weight:800;color:#fff;background:var(--p);min-height:52px;cursor:pointer}button.secondary{background:#64748b}button.blue{background:var(--a)}button.green{background:var(--ok)}button.yellow{background:var(--yel)}.result{display:none;padding:18px;margin:16px 0;text-align:center}.result.show{display:block}.score{font-size:2rem;font-weight:900;color:var(--p);margin:8px 0}.hidden{display:none!important}.topbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}.progress{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:12px}.bar{height:100%;width:0;background:var(--a);transition:.25s}input.name{width:100%;border:1px solid var(--bd);border-radius:14px;padding:14px;font-size:1rem;margin-top:10px}footer{text-align:center;color:var(--mut);font-size:.86rem;padding:16px}@media(max-width:430px){main{padding-left:10px;padding-right:10px}.question{padding:14px;border-radius:16px}.option{padding:12px}}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Quiz de Embriologia Humana</h1>
-    <p>3ª à 8ª semana: gastrulação, neurulação, organogênese e possíveis alterações do desenvolvimento.</p>
-  </header>
-
-  <main>
-    <section class="info">
-      <strong>Como funciona:</strong> responda as questões, clique em <strong>Corrigir quiz</strong> e veja a pontuação. A questão escrita mostra a resposta esperada somente após a correção.
-    </section>
-
-    <form id="quizForm"></form>
-
-    <section id="result" class="result">
-      <div class="tag">Resultado final</div>
-      <div id="score" class="score"></div>
-      <p id="message"></p>
-    </section>
-
-    <div class="actions">
-      <button type="button" onclick="corrigirQuiz()">Corrigir quiz</button>
-      <button type="button" class="secondary" onclick="reiniciarQuiz()">Refazer</button>
-    </div>
-  </main>
-
-  <script>
-    const questoes = [
-      {q:"Qual evento marca principalmente a 3ª semana do desenvolvimento embrionário?", a:["Formação dos dedos","Gastrulação","Nascimento dos arcos costais","Desaparecimento da placenta"], c:1, e:"A 3ª semana é marcada pela gastrulação, processo que forma os três folhetos embrionários."},
-      {q:"Durante a gastrulação são formados:", a:["Ectoderma, mesoderma e endoderma","Cérebro, pulmão e rins completos","Placenta definitiva e líquido amniótico","Somente pele e ossos"], c:0, e:"A gastrulação forma os três folhetos: ectoderma, mesoderma e endoderma."},
-      {q:"O ectoderma origina principalmente:", a:["Músculos e ossos","Sistema nervoso e pele","Fígado e pâncreas","Coração e rins"], c:1, e:"O ectoderma origina sistema nervoso, epiderme e estruturas sensoriais."},
-      {q:"O mesoderma contribui para a formação de:", a:["Músculos, ossos, coração e rins","Sistema nervoso e pele","Revestimento interno do intestino","Pulmões apenas"], c:0, e:"O mesoderma forma tecidos de sustentação, músculos, sistema cardiovascular e parte do sistema urinário."},
-      {q:"O endoderma está relacionado principalmente com:", a:["Sistema nervoso","Músculos esqueléticos","Revestimento do tubo digestivo e respiratório","Pele e cabelos"], c:2, e:"O endoderma origina revestimentos internos, como trato digestivo e respiratório, além de órgãos associados."},
-      {q:"A notocorda é importante porque:", a:["Forma diretamente os dedos","Serve como eixo embrionário e induz a formação do sistema nervoso","Impede a formação do coração","Forma a placenta inteira"], c:1, e:"A notocorda orienta o eixo do embrião e participa da indução da placa neural."},
-      {q:"A neurulação ocorre principalmente na 4ª semana e forma:", a:["O tubo neural","A placenta definitiva","Os dentes permanentes","O cordão umbilical completo"], c:0, e:"A neurulação leva à formação do tubo neural, origem do encéfalo e medula espinhal."},
-      {q:"Se o tubo neural não fecha adequadamente, pode ocorrer:", a:["Espinha bífida ou anencefalia","Apenas mudança na cor dos olhos","Aumento obrigatório do peso fetal","Formação extra de pulmões"], c:0, e:"Falhas no fechamento do tubo neural podem causar defeitos como espinha bífida e anencefalia."},
-      {q:"O coração começa a bater aproximadamente em torno do:", a:["Dia 7","Dia 12","Dia 22","Dia 60"], c:2, e:"O coração primitivo começa a bater por volta do 22º dia."},
-      {q:"Os somitos dão origem principalmente a:", a:["Vértebras, costelas, músculos esqueléticos e parte da derme","Fígado e pâncreas","Somente cérebro","Placenta e âmnio"], c:0, e:"Somitos formam estruturas do esqueleto axial, musculatura esquelética e parte da pele."},
-      {q:"Na 5ª semana, um destaque importante é:", a:["Crescimento rápido da cabeça e surgimento dos brotos dos membros","Nascimento do bebê","Finalização dos dentes permanentes","Desaparecimento do coração"], c:0, e:"Na 5ª semana há crescimento encefálico intenso e aparecimento dos brotos dos membros."},
-      {q:"Entre a 6ª e a 8ª semana ocorre:", a:["Definição progressiva dos membros e dedos","Parada completa da organogênese","Desaparecimento do sistema nervoso","Formação exclusiva da placenta"], c:0, e:"Nesse período, os membros e dedos ficam progressivamente mais definidos."},
-      {q:"Por que a 3ª à 8ª semana é considerada crítica?", a:["Porque ocorre a organogênese, fase sensível a malformações","Porque nada importante acontece","Porque o embrião já está totalmente maduro","Porque só há aumento de tamanho"], c:0, e:"É o período embrionário de organogênese, quando os principais sistemas começam a se formar."},
-      {q:"A deficiência de ácido fólico aumenta o risco de:", a:["Defeitos do tubo neural","Apenas gripe na mãe","Cor dos olhos alterada","Nascimento de gêmeos"], c:0, e:"O ácido fólico é importante para reduzir risco de defeitos do tubo neural."},
-      {q:"O consumo de álcool durante a organogênese pode gerar:", a:["Alterações no desenvolvimento fetal","Apenas aumento de energia materna","Proteção contra malformações","Nenhum risco conhecido"], c:0, e:"Álcool pode interferir no desenvolvimento embrionário e fetal, especialmente em períodos sensíveis."},
-      {q:"Infecções maternas como rubéola no início da gestação podem afetar:", a:["Desenvolvimento cardíaco, auditivo e ocular","Somente crescimento das unhas","Apenas a cor do cabelo","Nenhuma estrutura embrionária"], c:0, e:"Algumas infecções no início da gestação podem causar alterações congênitas importantes."},
-      {q:"O uso de medicamentos sem orientação durante a organogênese pode:", a:["Aumentar risco de malformações, dependendo do medicamento e período","Nunca causar efeito","Apenas melhorar a formação do embrião","Impedir toda gravidez"], c:0, e:"Alguns medicamentos podem ser teratogênicos, por isso exigem orientação profissional."},
-      {q:"Ao final da 8ª semana:", a:["Os principais sistemas orgânicos já iniciaram sua formação e o embrião passa a ser chamado de feto","A gastrulação ainda não começou","O coração ainda não bate","Não existem membros"], c:0, e:"Ao fim da 8ª semana termina o período embrionário e inicia-se o período fetal."},
-      {q:"Se há falha importante no desenvolvimento dos brotos dos membros, o período provável de alteração é:", a:["5ª a 8ª semana","Apenas após o nascimento","Somente 1ª semana","Somente depois do 9º mês"], c:0, e:"Os membros se desenvolvem principalmente entre a 5ª e 8ª semana."},
-      {q:"Explique com suas palavras por que a organogênese é uma fase sensível e cite dois fatores que podem gerar problemas no desenvolvimento.", escrita:true, esperado:"Resposta esperada: a organogênese é sensível porque os principais órgãos e sistemas estão começando a se formar. Fatores como álcool, certos medicamentos, infecções, radiação e deficiência de ácido fólico podem gerar alterações no desenvolvimento."}
-    ];
-
-    const form = document.getElementById("quizForm");
-
-    function montarQuiz() {
-      form.innerHTML = "";
-      questoes.forEach((item, index) => {
-        const box = document.createElement("section");
-        box.className = "question";
-        let html = `<h2>${index + 1}. ${item.q}</h2>`;
-
-        if (item.escrita) {
-          html += `<textarea id="q${index}" placeholder="Digite sua resposta aqui..."></textarea>`;
-          html += `<div id="f${index}" class="feedback note"></div>`;
-        } else {
-          html += `<div class="alternatives">`;
-          item.a.forEach((alt, i) => {
-            html += `<label class="option"><input type="radio" name="q${index}" value="${i}"><span>${alt}</span></label>`;
-          });
-          html += `</div><div id="f${index}" class="feedback"></div>`;
-        }
-
-        box.innerHTML = html;
-        form.appendChild(box);
-      });
-    }
-
-    function corrigirQuiz() {
-      let acertos = 0;
-      let objetivas = 0;
-
-      questoes.forEach((item, index) => {
-        const feedback = document.getElementById(`f${index}`);
-
-        if (item.escrita) {
-          feedback.className = "feedback note";
-          feedback.innerHTML = `<strong>Resposta esperada:</strong><br>${item.esperado.replace("Resposta esperada: ", "")}`;
-          return;
-        }
-
-        objetivas++;
-        const marcada = document.querySelector(`input[name="q${index}"]:checked`);
-        if (!marcada) {
-          feedback.className = "feedback bad";
-          feedback.innerHTML = `Não respondida. <br><strong>Explicação:</strong> ${item.e}`;
-          return;
-        }
-
-        if (Number(marcada.value) === item.c) {
-          acertos++;
-          feedback.className = "feedback ok";
-          feedback.innerHTML = `Correta. <br><strong>Explicação:</strong> ${item.e}`;
-        } else {
-          feedback.className = "feedback bad";
-          feedback.innerHTML = `Incorreta. Resposta correta: <strong>${item.a[item.c]}</strong>. <br><strong>Explicação:</strong> ${item.e}`;
-        }
-      });
-
-      const percentual = Math.round((acertos / objetivas) * 100);
-      document.getElementById("score").textContent = `${acertos}/${objetivas} (${percentual}%)`;
-
-      let msg = "";
-      if (percentual >= 90) msg = "Excelente! Você domina muito bem o conteúdo.";
-      else if (percentual >= 75) msg = "Muito bom! Revise apenas os detalhes.";
-      else if (percentual >= 55) msg = "Bom começo. Vale revisar gastrulação, neurulação e organogênese.";
-      else msg = "Revise o conteúdo com calma e refaça o quiz depois.";
-
-      document.getElementById("message").textContent = msg;
-      document.getElementById("result").classList.add("show");
-      document.getElementById("result").scrollIntoView({behavior:"smooth", block:"start"});
-    }
-
-    function reiniciarQuiz() {
-      montarQuiz();
-      document.getElementById("result").classList.remove("show");
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
-
-    montarQuiz();
-  </script>
+<header><h1>Quiz de Embriologia Humana</h1><p>3ª à 8ª semana: escolha o nível, responda pelo iPhone e gere um PDF com seu resultado.</p></header>
+<main>
+<section id="start" class="card">
+  <h2>Escolha o nível da prova</h2>
+  <p>As perguntas são sorteadas de um banco de questões. A cada tentativa, a ordem muda.</p>
+  <input id="student" class="name" placeholder="Nome do aluno (opcional)">
+  <div class="levels">
+    <button class="level easy" onclick="startQuiz('facil')"><h2>🟢 Fácil</h2><p>20 questões: conceitos básicos, folhetos, gastrulação e neurulação.</p></button>
+    <button class="level medium" onclick="startQuiz('medio')"><h2>🟡 Médio</h2><p>30 questões: sequência temporal, estruturas, funções e casos simples.</p></button>
+    <button class="level hard" onclick="startQuiz('dificil')"><h2>🔴 Difícil</h2><p>40 questões: casos clínicos, teratologia e integração entre semanas.</p></button>
+  </div>
+</section>
+<section id="quizHead" class="card hidden"><div class="topbar"><span id="nivelAtual" class="pill"></span><span id="contador" class="pill"></span></div><div class="progress"><div id="bar" class="bar"></div></div></section>
+<form id="quizForm"></form>
+<section id="result" class="result"><div class="pill">Resultado final</div><div id="score" class="score"></div><p id="message"></p></section>
+<div id="actions" class="actions hidden"><button onclick="corrigirQuiz()" type="button">Corrigir quiz</button><button onclick="gerarPDF()" type="button" class="green">Gerar PDF do resultado</button><button onclick="reiniciar()" type="button" class="secondary">Voltar para níveis</button></div>
+</main><footer>Material de estudo. Não substitui orientação profissional ou conteúdo oficial da disciplina.</footer>
+<script>
+const bancos={facil:{nome:'Fácil',qtd:20},medio:{nome:'Médio',qtd:30},dificil:{nome:'Difícil',qtd:40}};
+const base={
+facil:[
+['Qual evento marca principalmente a 3ª semana?',['Gastrulação','Nascimento','Formação dos dentes','Final da gestação'],0,'A 3ª semana é marcada pela gastrulação.'],
+['Na gastrulação são formados:',['Ectoderma, mesoderma e endoderma','Placenta, âmnio e cório','Cérebro completo e pulmões','Dedos e unhas'],0,'A gastrulação forma os três folhetos embrionários.'],
+['O ectoderma origina principalmente:',['Sistema nervoso e pele','Músculos e ossos','Fígado e pâncreas','Coração e rins'],0,'O ectoderma dá origem ao sistema nervoso e epiderme.'],
+['O mesoderma participa da formação de:',['Músculos, ossos e coração','Pele e sistema nervoso','Revestimento intestinal','Cristalino apenas'],0,'O mesoderma forma músculos, ossos, coração, vasos e rins.'],
+['O endoderma origina principalmente:',['Revestimento digestório e respiratório','Sistema nervoso','Músculos','Pele'],0,'O endoderma forma revestimentos internos e órgãos associados.'],
+['A notocorda serve como:',['Eixo do embrião','Dedo primitivo','Placenta definitiva','Pulmão fetal'],0,'A notocorda orienta o eixo embrionário e induz a placa neural.'],
+['A neurulação forma:',['Tubo neural','Fígado definitivo','Cordão umbilical completo','Dentes permanentes'],0,'O tubo neural origina encéfalo e medula espinhal.'],
+['O tubo neural está relacionado ao futuro:',['Sistema nervoso central','Sistema digestório completo','Sistema urinário apenas','Placenta'],0,'O tubo neural origina estruturas do sistema nervoso central.'],
+['Falha no fechamento do tubo neural pode causar:',['Espinha bífida','Apendicite','Miopia obrigatória','Hérnia de disco adulta'],0,'Defeitos do tubo neural incluem espinha bífida e anencefalia.'],
+['O coração começa a bater por volta do:',['22º dia','2º dia','80º dia','9º mês'],0,'O coração primitivo começa seus batimentos por volta do dia 22.'],
+['Os somitos formam principalmente:',['Vértebras, músculos e parte da derme','Fígado','Pulmões','Placenta'],0,'Somitos contribuem para esqueleto axial, músculos e derme.'],
+['Na 5ª semana surgem com destaque:',['Brotos dos membros','Dentes permanentes','Cabelos completos','Nascimento'],0,'Os brotos dos membros aparecem no período inicial da organogênese.'],
+['Entre 6ª e 8ª semana ocorre:',['Definição progressiva de membros e dedos','Desaparecimento do coração','Início da fecundação','Formação só da placenta'],0,'Os membros e dedos tornam-se mais definidos.'],
+['Ao final da 8ª semana o embrião:',['Passa a ser chamado de feto','Ainda não tem coração','Não iniciou órgãos','Volta a ser disco bilaminar'],0,'Após a 8ª semana inicia-se o período fetal.'],
+['A 3ª à 8ª semana é crítica porque ocorre:',['Organogênese','Menstruação','Parto','Implantação tardia'],0,'É o período em que os principais órgãos começam a se formar.'],
+['Ácido fólico ajuda a prevenir:',['Defeitos do tubo neural','Gripe','Cor dos olhos','Nascimento de gêmeos'],0,'O ácido fólico reduz risco de defeitos do tubo neural.'],
+['Álcool na organogênese pode:',['Prejudicar o desenvolvimento','Proteger o embrião','Acelerar o crescimento sem risco','Formar órgãos extras'],0,'O álcool é um fator de risco para alterações do desenvolvimento.'],
+['Medicamentos na gestação devem ser usados:',['Com orientação profissional','Sempre sem receita','Somente por indicação de amigos','Nunca em nenhuma situação'],0,'Alguns medicamentos podem ser teratogênicos.'],
+['Rubéola no início da gestação pode afetar:',['Coração, audição e olhos','Apenas unhas','Somente cabelo','Nada'],0,'Infecções maternas podem causar alterações congênitas.'],
+['O período embrionário vai aproximadamente da:',['3ª à 8ª semana','20ª à 30ª semana','Apenas 1º dia','Após o nascimento'],0,'O período embrionário é marcado pela organogênese.'],
+['A linha primitiva aparece durante:',['Gastrulação','Parto','Lactação','Período fetal final'],0,'A linha primitiva permite migração celular na gastrulação.'],
+['Os arcos faríngeos participam da formação de:',['Face e pescoço','Dedos dos pés','Fígado','Rins apenas'],0,'Arcos faríngeos contribuem para estruturas da face e pescoço.'],
+['O dobramento embrionário ajuda a formar:',['Corpo tridimensional','Ciclo menstrual','Placenta apenas','Dentes'],0,'O embrião deixa de ser plano e ganha organização corporal.'],
+['Brotos dos membros são importantes para formar:',['Braços e pernas','Coração','Placenta','Notocorda'],0,'Eles originam os membros superiores e inferiores.']
+],
+medio:[
+['A sequência correta é:',['Gastrulação → neurulação → organogênese','Neurulação → fecundação → parto','Parto → gastrulação → implantação','Ossificação → fecundação → gastrulação'],0,'A sequência básica é formação dos folhetos, tubo neural e órgãos.'],
+['Uma falha na 4ª semana pode comprometer principalmente:',['Fechamento do tubo neural','Nascimento dos dentes','Produção de leite','Fusão tardia dos ossos adultos'],0,'A 4ª semana é essencial para neurulação.'],
+['A notocorda induz a formação da:',['Placa neural','Placenta definitiva','Vesícula biliar apenas','Unha'],0,'A placa neural deriva do ectoderma induzido pela notocorda.'],
+['O mesoderma paraxial forma:',['Somitos','Tubo digestivo interno','Epiderme','Cristalino'],0,'O mesoderma paraxial se segmenta em somitos.'],
+['Os somitos se relacionam com:',['Esclerótomo, miótomo e dermátomo','Endoderma, âmnio e cório','Placenta, córion e alantoide','Fígado, baço e pâncreas apenas'],0,'Somitos se diferenciam em regiões que formam ossos, músculos e derme.'],
+['Deficiência de ácido fólico no começo da gestação aumenta risco de:',['Defeitos do tubo neural','Apendicite fetal','Cor diferente dos olhos','Duplicação obrigatória de membros'],0,'Fólico é crucial durante neurulação.'],
+['Uma gestante na 6ª semana está em fase de:',['Organogênese','Período fetal tardio','Parto','Ovulação'],0,'A 6ª semana está dentro do período embrionário.'],
+['Falha nos brotos dos membros pode ocorrer mais provavelmente entre:',['5ª e 8ª semana','Depois do nascimento','1º ano de vida','Apenas 30ª semana'],0,'Membros se desenvolvem fortemente nessa janela.'],
+['A cabeça fica proporcionalmente grande na 5ª semana por:',['Crescimento rápido do encéfalo','Crescimento dos cabelos','Formação dos dentes','Aumento do fígado adulto'],0,'O desenvolvimento encefálico é intenso.'],
+['Os arcos faríngeos contribuem para:',['Face, mandíbula, pescoço e orelha','Dedos e unhas','Fígado e pâncreas','Placenta exclusiva'],0,'São importantes na morfogênese craniofacial.'],
+['O dobramento cefalocaudal e lateral contribui para:',['Formação do corpo tridimensional e intestino primitivo','Desaparecimento do sistema nervoso','Formação de pelos','Nascimento'],0,'O dobramento incorpora estruturas e organiza o corpo.'],
+['Ao final da 8ª semana, o mais correto é dizer que:',['Os principais sistemas já iniciaram sua formação','Todos os órgãos estão maduros','Nada importante ocorreu','O coração começa só agora'],0,'Os órgãos iniciaram formação, mas amadurecem no período fetal.'],
+['Teratógenos são:',['Agentes que podem causar alterações no desenvolvimento','Hormônios sempre benéficos','Nutrientes obrigatórios','Células do endoderma'],0,'Álcool, radiação, infecções e alguns medicamentos podem ser teratogênicos.'],
+['O período de maior risco para malformações estruturais é:',['3ª à 8ª semana','Último mês apenas','Após o parto','Antes da fecundação apenas'],0,'É o período de organogênese.'],
+['O ectoderma também participa da formação de:',['Olhos e ouvido interno','Músculo cardíaco','Rins definitivos apenas','Intestino'],0,'Ectoderma forma estruturas sensoriais.'],
+['O endoderma contribui para:',['Fígado e pâncreas','Músculos dos membros','Crânio ósseo somente','Pele externa'],0,'Órgãos associados ao tubo digestivo derivam do endoderma.'],
+['O coração embrionário deriva principalmente do:',['Mesoderma','Ectoderma','Endoderma','Âmnio'],0,'O sistema cardiovascular tem origem mesodérmica.'],
+['A circulação inicial é importante porque:',['O embrião cresce e precisa distribuir nutrientes','Já permite respiração pulmonar','Substitui completamente a placenta','Forma dentes'],0,'A circulação ajuda no suporte ao crescimento embrionário.'],
+['Caso uma questão fale em anencefalia, o processo relacionado é:',['Neurulação','Gastrulação tardia dos dedos','Formação da pele adulta','Ossificação final'],0,'Anencefalia é defeito do fechamento do tubo neural.'],
+['Caso uma questão fale em espinha bífida, o foco é:',['Fechamento do tubo neural posterior','Formação do fígado','Implantação no útero','Formação do esmalte dentário'],0,'Espinha bífida envolve falha no fechamento neural posterior.'],
+['Uma alteração por rubéola no primeiro trimestre é exemplo de:',['Infecção teratogênica','Mutação sempre hereditária','Processo normal','Evento sem risco'],0,'Infecções podem atuar como teratógenos.'],
+['A diferenciação dos dedos envolve:',['Modelagem dos membros','Formação da notocorda','Implantação','Ovulação'],0,'Os dedos se separam progressivamente no desenvolvimento dos membros.'],
+['A cauda embrionária:',['Regrede até o final do período embrionário','Vira cordão umbilical','Forma os pulmões','Cresce até o nascimento'],0,'A cauda embrionária desaparece progressivamente.'],
+['A organogênese significa:',['Formação inicial dos órgãos','Formação do gameta','Menstruação','Amamentação'],0,'É o processo inicial de formação dos órgãos.'],
+['O termo período fetal se relaciona mais com:',['Crescimento e maturação','Formação inicial dos folhetos','Gastrulação','Fecundação'],0,'Após a 8ª semana há crescimento e amadurecimento.'],
+['Se o problema ocorre na formação dos folhetos, a fase mais relacionada é:',['Gastrulação','Período fetal final','Nascimento','Lactação'],0,'Folhetos são definidos na gastrulação.'],
+['Um fator que NÃO é exemplo típico de teratógeno é:',['Água potável em consumo normal','Álcool','Radiação intensa','Alguns medicamentos'],0,'Água em consumo normal não é teratógeno.'],
+['A placa neural origina-se do:',['Ectoderma','Endoderma','Mesoderma lateral','Saco vitelino apenas'],0,'A placa neural é ectodérmica.'],
+['O tubo neural dará origem a:',['Encéfalo e medula espinhal','Fígado e pâncreas','Intestino e pulmão completos','Vasos da placenta apenas'],0,'É a base do sistema nervoso central.'],
+['A melhor definição de malformação congênita é:',['Alteração estrutural presente ao nascimento','Doença sempre infecciosa','Evento exclusivo da velhice','Sintoma psicológico'],0,'Malformações podem resultar de falhas do desenvolvimento.'],
+['A maior sensibilidade do embrião ocorre porque:',['Células estão migrando, diferenciando e formando órgãos','O embrião não tem células','Os órgãos já estão maduros','Não há divisão celular'],0,'Processos intensos tornam o período mais sensível.'],
+['A janela crítica de neurulação reforça a importância de:',['Ácido fólico antes e no início da gestação','Apenas cálcio no nono mês','Suspender toda alimentação','Evitar qualquer consulta'],0,'Fólico deve estar adequado precocemente.'],
+['A formação facial envolve bastante:',['Arcos faríngeos e crescimento craniofacial','Somente fígado','Somente pâncreas','Coração adulto'],0,'Arcos faríngeos são importantes para face e pescoço.'],
+['O crescimento dos membros superiores ocorre antes ou junto dos inferiores, de modo geral:',['Os superiores aparecem primeiro','Os inferiores sempre aparecem meses antes','Não existem brotos de membros','Os membros surgem só após o parto'],0,'Brotos superiores aparecem ligeiramente antes.']
+],
+dificil:[
+['Gestante sem ácido fólico adequado antes de descobrir gravidez na 5ª semana: maior risco para:',['Defeito do tubo neural','Apendicite neonatal','Miopia comum obrigatória','Cárie congênita'],0,'O fechamento do tubo neural ocorre cedo, antes de muitas pessoas descobrirem a gestação.'],
+['Álcool frequente entre 3ª e 8ª semana preocupa porque:',['Pode interferir na organogênese','Só altera peso materno','É protetor neural','Age apenas após o parto'],0,'O período embrionário é sensível a teratógenos.'],
+['Falha de migração celular pela linha primitiva compromete principalmente:',['Gastrulação e formação dos folhetos','Lactação','Nascimento dos dentes','Período fetal tardio'],0,'A linha primitiva permite a migração que forma os folhetos.'],
+['A relação correta é:',['Ectoderma → SNC; mesoderma → coração; endoderma → epitélio intestinal','Ectoderma → fígado; endoderma → músculo','Mesoderma → epiderme; ectoderma → rim','Endoderma → medula espinhal'],0,'Essa é a correlação clássica dos folhetos.'],
+['O fechamento inadequado do neuroporo cranial está mais associado a:',['Anencefalia','Espinha bífida lombar apenas','Polidactilia','Fenda labial isolada'],0,'Falha cranial pode causar anencefalia.'],
+['O fechamento inadequado do neuroporo caudal está mais associado a:',['Espinha bífida','Anencefalia isolada','Hérnia inguinal adulta','Cardiopatia adquirida'],0,'Falha caudal se relaciona a espinha bífida.'],
+['A notocorda também contribui para remanescente adulto conhecido como:',['Núcleo pulposo dos discos intervertebrais','Esôfago','Fígado','Epiderme'],0,'Restos da notocorda persistem no núcleo pulposo.'],
+['Mesoderma lateral é importante para:',['Sistema cardiovascular e parede corporal','Cristalino apenas','Epiderme','Tubo neural'],0,'O mesoderma lateral participa de vasos, coração e cavidades.'],
+['Crista neural, derivada do ectoderma, contribui para:',['Gânglios, melanócitos e estruturas craniofaciais','Fígado e pâncreas','Músculo cardíaco todo','Endométrio'],0,'Crista neural tem ampla migração e diferenciação.'],
+['Caso clínico com defeito craniofacial pode envolver falhas em:',['Crista neural e arcos faríngeos','Somente alvéolos pulmonares maduros','Dentes permanentes adultos','Lactação'],0,'Crista neural e arcos faríngeos são relevantes para face.'],
+['A suscetibilidade a teratógenos depende principalmente de:',['Dose, tempo de exposição e fase do desenvolvimento','Apenas cor dos olhos','Somente sexo fetal','Apenas altura materna'],0,'Risco varia conforme dose e momento do desenvolvimento.'],
+['Uma droga usada na 2ª semana tende a seguir mais o padrão:',['Tudo ou nada, em termos gerais','Malformação específica obrigatória','Sem efeito biológico possível','Formação de dedos extras obrigatória'],0,'Antes da organogênese, exposições podem levar a perda ou recuperação.'],
+['Uma exposição na 6ª semana tende a ser mais preocupante por:',['Estar no pico da organogênese','Não haver divisão celular','Todos os órgãos estarem maduros','Ser após o parto'],0,'A 6ª semana integra o período embrionário crítico.'],
+['Defeito de septação cardíaca pode estar ligado a alterações durante:',['Organogênese cardiovascular','Amamentação','Período adulto','Ovulação'],0,'O coração se desenvolve muito cedo.'],
+['O coração deriva do mesoderma e começa função antes de estar totalmente maduro porque:',['O embrião precisa de circulação precoce','O pulmão já respira ar','A placenta não existe em nenhuma fase','Os rins adultos já filtram tudo'],0,'A circulação primitiva sustenta o crescimento.'],
+['Se a prova cita somitos e vértebras, a estrutura derivada é:',['Esclerótomo','Dermátomo apenas','Endoderma','Neuroporo'],0,'Esclerótomo dos somitos forma vértebras e costelas.'],
+['Se cita somitos e músculo esquelético, a porção é:',['Miótomo','Endoderma','Linha primitiva','Alantoide'],0,'Miótomo contribui para musculatura esquelética.'],
+['Se cita somitos e derme dorsal, a porção é:',['Dermátomo','Esclerótomo','Tubo neural','Cório'],0,'Dermátomo forma parte da derme.'],
+['A formação do intestino primitivo depende muito de:',['Dobramento embrionário','Ossificação final','Dentição','Nascimento'],0,'O dobramento incorpora parte do saco vitelino.'],
+['Falha no dobramento da parede corporal pode se relacionar a:',['Defeitos de fechamento da parede corporal','Anencefalia exclusivamente','Miopia','Cárie'],0,'O dobramento é importante para parede corporal e organização interna.'],
+['Uma questão sobre fenda labial/palatina geralmente envolve:',['Desenvolvimento craniofacial e fusão de processos faciais','Somente tubo neural posterior','Fígado','Rim adulto'],0,'A face se forma por crescimento e fusão de proeminências.'],
+['Polidactilia envolve principalmente alteração em:',['Padrão de desenvolvimento dos membros','Fechamento do tubo neural cranial','Gastrulação inicial obrigatória','Formação do fígado'],0,'Dedos dependem da modelagem dos brotos dos membros.'],
+['A apoptose interdigital é importante para:',['Separação dos dedos','Formação do tubo neural','Formação do coração primitivo','Implantação'],0,'Morte celular programada ajuda a separar dedos.'],
+['A frase mais correta sobre final da 8ª semana é:',['Órgãos principais iniciados, ainda imaturos','Todos os órgãos completamente funcionais','Não houve organogênese','Início da fecundação'],0,'O período fetal amadurece estruturas já iniciadas.'],
+['Um erro comum é achar que organogênese significa:',['Órgãos completamente prontos','Formação inicial dos órgãos','Período crítico','Diferenciação celular'],0,'Organogênese é início da formação, não maturidade completa.'],
+['O tubo neural se fecha por mecanismos relacionados a:',['Dobramento e fusão das pregas neurais','Formação dos dentes','Digestão fetal','Respiração pulmonar'],0,'Pregas neurais se elevam e fusionam.'],
+['Se a pergunta menciona placa neural, sulco neural e pregas neurais, trata-se de:',['Neurulação','Gastrulação apenas','Fecundação','Parto'],0,'São etapas da neurulação.'],
+['Se a pergunta menciona epiblasto migrando pela linha primitiva, trata-se de:',['Gastrulação','Neurulação tardia','Parto','Maturação pulmonar fetal'],0,'As células do epiblasto formam os folhetos.'],
+['A origem dos rins envolve principalmente:',['Mesoderma intermediário','Ectoderma superficial','Endoderma puro','Âmnio'],0,'Sistema urinário deriva do mesoderma intermediário.'],
+['Pulmões têm epitélio interno derivado de:',['Endoderma','Ectoderma','Mesoderma paraxial','Crista neural apenas'],0,'O epitélio respiratório deriva do endoderma.'],
+['A musculatura e tecido conjuntivo dos pulmões derivam principalmente de:',['Mesoderma','Endoderma','Ectoderma','Linha primitiva adulta'],0,'Endoderma forma epitélio; mesoderma forma suporte.'],
+['A pele tem epiderme derivada de:',['Ectoderma','Endoderma','Mesoderma intermediário','Saco vitelino'],0,'Epiderme é ectodérmica.'],
+['A derme tem contribuição principalmente de:',['Mesoderma','Endoderma','Tubo neural','Âmnio'],0,'A derme tem origem mesodérmica.'],
+['O termo teratologia significa estudo de:',['Alterações do desenvolvimento causadas por fatores externos/genéticos','Ciclo menstrual apenas','Digestão','Contração muscular'],0,'Teratologia estuda causas de malformações.'],
+['Se o aluno associa qualquer malformação apenas à genética, o erro é esquecer:',['Fatores ambientais também podem interferir','Toda malformação é sempre alimentar','Nada interfere no embrião','O embrião não tem desenvolvimento'],0,'Ambiente e genes podem contribuir.'],
+['A janela de maior risco estrutural não elimina riscos após 8ª semana porque:',['Ainda há crescimento e maturação funcional','Tudo está imune a alterações','O feto não cresce','Não há cérebro'],0,'Depois pode haver efeitos em crescimento e função.'],
+['Exposição tardia costuma afetar mais:',['Crescimento e função','Formação dos folhetos primários','Gastrulação','Fecundação'],0,'Após organogênese, efeitos funcionais e de crescimento são mais comuns.'],
+['A organogênese cardiovascular começa cedo, por isso:',['Alterações precoces podem gerar cardiopatias congênitas','Coração só importa após nascimento','Não há circulação embrionária','Coração deriva do endoderma'],0,'O coração é um dos primeiros sistemas funcionais.'],
+['Questão integrativa: defeito neural + falta de ácido fólico aponta para:',['Neurulação prejudicada','Falha de amamentação','Dentição fetal','Ovulação tardia'],0,'Fólico está relacionado ao fechamento do tubo neural.'],
+['Questão integrativa: álcool + 3ª a 8ª semana aponta para risco em:',['Organogênese','Somente parto','Lactação','Período adulto'],0,'Álcool durante organogênese é preocupante.'],
+['Questão integrativa: falha em músculos e vértebras aponta para:',['Somitos/mesoderma paraxial','Endoderma','Crista neural apenas','Âmnio'],0,'Somitos formam músculo esquelético e vértebras.'],
+['Questão integrativa: epitélio intestinal alterado aponta para:',['Endoderma','Ectoderma','Notocorda adulta','Somito'],0,'O endoderma forma revestimento intestinal.'],
+['Questão integrativa: medula espinhal alterada aponta para:',['Tubo neural/ectoderma','Endoderma','Mesoderma lateral apenas','Cório'],0,'Medula deriva do tubo neural, de origem ectodérmica.'],
+['Um bom resumo da 3ª semana é:',['Formação dos folhetos e eixo embrionário','Maturação pulmonar completa','Nascimento','Dentição'],0,'Gastrulação e notocorda são pontos-chave.'],
+['Um bom resumo da 4ª semana é:',['Neurulação, dobramento e coração batendo','Parto','Período fetal tardio','Formação dos dentes permanentes'],0,'A 4ª semana reorganiza o corpo e fecha o tubo neural.']
+]};
+let prova=[],nivel='',corrigido=false,erros=[];
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function obj(x,i){let o=shuffle(x[1].map((t,j)=>({t,j})));return{q:x[0],opts:o.map(v=>v.t),c:o.findIndex(v=>v.j===x[2]),e:x[3],id:i}}
+function startQuiz(n){nivel=n;corrigido=false;erros=[];const cfg=bancos[n];prova=shuffle(base[n]).slice(0,cfg.qtd).map(obj);document.getElementById('start').classList.add('hidden');document.getElementById('quizHead').classList.remove('hidden');document.getElementById('actions').classList.remove('hidden');document.getElementById('result').classList.remove('show');document.getElementById('nivelAtual').textContent='Nível: '+cfg.nome;render();}
+function render(){const f=document.getElementById('quizForm');f.innerHTML='';prova.forEach((it,idx)=>{let s=document.createElement('section');s.className='question';let h=`<h2>${idx+1}. ${it.q}</h2><div class="alternatives">`;it.opts.forEach((op,i)=>h+=`<label class="option"><input onchange="prog()" type="radio" name="q${idx}" value="${i}"><span>${op}</span></label>`);h+=`</div><div id="fb${idx}" class="feedback"></div>`;s.innerHTML=h;f.appendChild(s)});prog();window.scrollTo({top:0,behavior:'smooth'})}
+function prog(){let r=prova.filter((_,i)=>document.querySelector(`input[name=q${i}]:checked`)).length;document.getElementById('contador').textContent=`${r}/${prova.length} respondidas`;document.getElementById('bar').style.width=(r/prova.length*100)+'%'}
+function corrigirQuiz(){let ac=0;erros=[];prova.forEach((it,i)=>{let m=document.querySelector(`input[name=q${i}]:checked`),fb=document.getElementById('fb'+i);if(!m){fb.className='feedback bad';fb.innerHTML='Não respondida.<br><b>Correta:</b> '+it.opts[it.c]+'<br><b>Explicação:</b> '+it.e;erros.push({n:i+1,q:it.q,sua:'Não respondida',cor:it.opts[it.c],e:it.e});return}if(+m.value===it.c){ac++;fb.className='feedback ok';fb.innerHTML='Correta.<br><b>Explicação:</b> '+it.e}else{fb.className='feedback bad';fb.innerHTML='Incorreta.<br><b>Correta:</b> '+it.opts[it.c]+'<br><b>Explicação:</b> '+it.e;erros.push({n:i+1,q:it.q,sua:it.opts[+m.value],cor:it.opts[it.c],e:it.e})}});corrigido=true;let pct=Math.round(ac/prova.length*100),msg=pct>=90?'Excelente!':pct>=75?'Muito bom!':pct>=55?'Bom começo, revise os erros.':'Revise o conteúdo e tente novamente.';document.getElementById('score').textContent=`${ac}/${prova.length} (${pct}%)`;document.getElementById('message').textContent=msg;document.getElementById('result').classList.add('show');document.getElementById('result').scrollIntoView({behavior:'smooth'});}
+function gerarPDF(){if(!corrigido){alert('Corrija o quiz antes de gerar o PDF.');return}const {jsPDF}=window.jspdf;const doc=new jsPDF();const nome=document.getElementById('student').value||'Aluno';const data=new Date().toLocaleString('pt-BR');let score=document.getElementById('score').textContent;let y=14;doc.setFontSize(16);doc.text('Relatório - Quiz de Embriologia Humana',14,y);y+=10;doc.setFontSize(11);doc.text('Aluno: '+nome,14,y);y+=7;doc.text('Data: '+data,14,y);y+=7;doc.text('Nível: '+bancos[nivel].nome,14,y);y+=7;doc.text('Resultado: '+score,14,y);y+=10;doc.setFontSize(13);doc.text('Questões erradas / não respondidas',14,y);y+=8;doc.setFontSize(10);if(!erros.length){doc.text('Nenhum erro. Excelente desempenho!',14,y)}erros.forEach(er=>{let linhas=doc.splitTextToSize(`${er.n}. ${er.q}\nSua resposta: ${er.sua}\nCorreta: ${er.cor}\nExplicação: ${er.e}`,180);if(y+linhas.length*5>280){doc.addPage();y=14}doc.text(linhas,14,y);y+=linhas.length*5+5});doc.save('resultado_embriologia_'+nome.replaceAll(' ','_')+'.pdf')}
+function reiniciar(){document.getElementById('start').classList.remove('hidden');document.getElementById('quizHead').classList.add('hidden');document.getElementById('actions').classList.add('hidden');document.getElementById('quizForm').innerHTML='';document.getElementById('result').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'})}
+</script>
 </body>
 </html>
